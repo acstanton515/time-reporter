@@ -1,0 +1,104 @@
+body {
+    font-size: 16px;
+    background-color: dimgray; 
+    /* color: dimgray; */
+    padding: 3px;
+    font: -webkit-small-control;
+    margin: 1%;
+}
+
+.section1  {
+  padding: 5px;
+  padding-left:  15px;
+  padding-right: 15px;
+  background-color: white;
+  border-radius: 5px 5px 5px 5px;
+  float:left; 
+  /* width: 400px; */
+  /* width: 45%; */
+  border-width:1px;
+  border-color: dimgray;
+  border-style: solid;
+}
+
+div#report-section {
+  /* width: 200px; */
+}
+
+.section2 {
+  padding: 5px;
+  padding-left:  15px;
+  padding-right: 15px;
+  background-color: white;
+  border-radius: 5px 5px 5px 5px;
+  float:left; 
+  width: 300px;
+  border-width:1px;
+  border-color: dimgray;
+  border-style: solid;
+  /* position: relative; */
+}
+
+h1 {
+    border-bottom: 3px solid #cc9900;
+    color: #996600;
+    font-size: 30px;
+}
+
+ul#menu {
+    padding: 0;
+
+}
+
+ul#menu li {
+    display: inline;
+    background-color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: dimgray;
+    border-radius: 5px 5px 5px 5px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+ul#menu li:hover {
+    color: white;
+    background-color: black;
+}
+
+p#import-result-text {font-size:10px;color:red;}
+
+input.is-timeInput {
+    width: 32px;
+}
+
+table.reference{
+	border-collapse:collapse;
+}
+
+table.reference tr:nth-child(odd)	{background-color:antiquewhite;}
+table.reference tr:nth-child(even)	{background-color:white;}
+table.reference tr.date {text-align: center;background-color:white;font-weight:bold;}
+table.reference tr.total {font-weight: bold;}
+/* table.reference tr  { display: none;} */
+
+table.reference th{
+	color:white;
+  background-color:dimgray;
+  border:1px solid #555555;
+  padding:3px;
+  vertical-align:top;
+  text-align:left;
+}
+
+table.reference th#category-report-header {min-width:120px;}
+table.reference th#category-time-header {min-width:120px;}
+
+table.reference td{
+	border:1px solid lightgray;
+  padding:3px;
+  min-width:47px;
+}
+
+table.reference td.adjustableTime:hover {background-color:lightgray;}
+/* table.reference td.end:hover    {background-color:lightgray;} */

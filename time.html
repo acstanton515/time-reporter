@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Time</title>
+  <meta charset="UTF-8"></meta>
+  <link rel="icon" href="img/Calender.png">
+  <link href="css/time.css" rel="stylesheet"></link>
+  <link href="css/jquery.timeentry.css"></link>
+  <script src="js/jquery-1.11.2.min.js"></script>
+  <script src="js/jquery.plugin.js"></script> 
+  <script src="js/jquery.timeentry.js"></script>
+</head>
+<body>
+  <nav id="nav01"></nav>
+  <div id="time-section" class='section1'>
+  <h1>Time</h1>
+  <table id='time' class="reference">
+  <tr>
+    <th>Start</th>
+    <th>End</th>
+    <th>Span</th>
+    <th id='category-time-header'>Category</th>
+    <th>Action</th>
+  </tr>
+  </table>
+  </div>
+  <div id="report-section" class='section1'>
+  <h1>Report</h1>
+  <table id="report" class="reference">
+  <tr>
+    <th id='category-report-header'>Category</th>
+    <th>Hours</th>
+    <!-- <th>Minutes</th> -->
+    <th style='display:none;'>Count</th>
+  </tr>
+  </table>
+  </div> 
+  <div id="config-section" class='section2'>
+  <h1>Config</h1>
+  <p>Configuration options still to come</p>
+  </div>
+  <div id="export-section" class='section2'>
+  <h1>Export</h1>
+  <textarea type='text' id='export-box' rows='10' cols='35'></textarea>
+  </div>
+  <div id="import-section" class='section2'>
+  <h1>Import</h1>
+  <textarea type='text' id='import-box' rows='10' cols='35'></textarea>
+  <button id='import-button' title='add these time entries to existing'>Add Entries</button>
+  <p id='import-result-text'></p>
+  <!-- <button id='overwrite-button' title='overwrite existing time entries with these'>Overwrite Entries</button> -->
+  </div>
+  <script src="js/time.js"></script>  
+</body>
+</html>
