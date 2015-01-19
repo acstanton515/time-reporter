@@ -3,7 +3,7 @@ body {
     background-color: dimgray; 
     /* color: dimgray; */
     padding: 3px;
-    font: -webkit-small-control;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 1%;
 }
 
@@ -36,7 +36,6 @@ div#report-section {
   border-width:1px;
   border-color: dimgray;
   border-style: solid;
-  /* position: relative; */
 }
 
 h1 {
@@ -68,37 +67,30 @@ ul#menu li:hover {
 
 p#import-result-text {font-size:10px;color:red;}
 
-input.is-timeInput {
-    width: 32px;
-}
+input.is-timeInput {width: 40px;font-size:16px;font-family: Arial, Helvetica, sans-serif;}
+select {font-size:16px;font-family: Arial, Helvetica, sans-serif}
+/* button.time-button {width:24px;height:20px;} */
+img.img-button {width:10px;height:10px;}
 
-table.reference{
-	border-collapse:collapse;
-}
-
+table.reference{border-collapse:collapse;}
 table.reference tr:nth-child(odd)	{background-color:antiquewhite;}
 table.reference tr:nth-child(even)	{background-color:white;}
 table.reference tr.date {text-align: center;background-color:white;font-weight:bold;}
 table.reference tr.total {font-weight: bold;}
-/* table.reference tr  { display: none;} */
-
 table.reference th{
 	color:white;
   background-color:dimgray;
   border:1px solid #555555;
-  padding:3px;
+  padding:2px;
   vertical-align:top;
   text-align:left;
 }
-
-table.reference th#category-report-header {min-width:120px;}
-table.reference th#category-time-header {min-width:120px;}
-
+table.reference th#category-report-header {min-width:150px;}
+table.reference th#category-time-header {min-width:150px;}
 table.reference td{
 	border:1px solid lightgray;
-  padding:3px;
-  min-width:47px;
+  padding:2px;
+  min-width:50px;
 }
-
+table.reference td.span {min-width:35px;}
 table.reference td.adjustableTime:hover {background-color:lightgray;}
-/* table.reference td.end:hover    {background-color:lightgray;} */

@@ -111,14 +111,14 @@ function categoryField (id) {
 }
 
 function actionButtons (id, isNew, isStopped) {
-  var y = "<button class='submit' title='submit'><img src='img/Add.png' alt='Submit' width='10' height='10'></button>";
+  var y = "<button class='submit time-button' title='submit'><img src='img/Add.png' alt='Submit' class='img-button'></button>";
   if (isNew)
     if (!isStopped)
-      var y2 = "<button class='stop' title='stop'><img src='img/Stop.png' alt='Stop' width='10' height='10'></button>";
+      var y2 = "<button class='stop time-button' title='stop'><img src='img/Stop.png' alt='Stop' class='img-button'></button>";
     else
       var y2 = '';
   else
-    var y2 = "<button class='remove' title='remove'><img src='img/Cross.png' alt='Remove' width='10' height='10'></button>";
+    var y2 = "<button class='remove time-button' title='remove'><img src='img/Cross.png' alt='Remove' class='img-button'></button>";
   var ref = "#"+id;
   $(ref+" .actions").html(y+y2);
   if (isNew) {
