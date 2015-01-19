@@ -32,7 +32,7 @@ div#report-section {
   background-color: white;
   border-radius: 5px 5px 5px 5px;
   float:left; 
-  width: 300px;
+  /* width: 300px; */
   border-width:1px;
   border-color: dimgray;
   border-style: solid;
@@ -68,6 +68,7 @@ ul#menu li:hover {
 p#import-result-text {font-size:10px;color:red;}
 
 input.is-timeInput {width: 40px;font-size:16px;font-family: Arial, Helvetica, sans-serif;}
+input.note-input {width: 160px;font-size:16px;font-family: Arial, Helvetica, sans-serif;}
 select {font-size:16px;font-family: Arial, Helvetica, sans-serif}
 /* button.time-button {width:24px;height:20px;} */
 img.img-button {width:10px;height:10px;}

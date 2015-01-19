@@ -24,17 +24,18 @@
   }
 }
 
-function rowTime(id, start, end, category, date) {
+function rowTime(id, start, end, category, date, note) {
   this.id = id;
   this.startTime = start;
   this.endTime = end;
   this.category = category;
   this.date = date;
+  this.note = note;
   this.toString = function (showId) {
     if (showId)
-      return ""+this.id+","+this.startTime+","+this.endTime+","+this.category+","+this.date;
+      return ""+this.id+","+this.startTime+","+this.endTime+","+this.category+","+this.date+","+this.note;
     else
-      return ""+this.startTime+","+this.endTime+","+this.category+","+this.date;
+      return ""+this.startTime+","+this.endTime+","+this.category+","+this.date+","+this.note;
   }
 }
 
@@ -49,17 +50,19 @@ function getDateFormat () {
 }
 
 function startDate (id) {
-  var x = document.getElementById(id).getElementsByClassName("start");
-  for (i = 0; i < x.length; i++) { 
-      x[i].innerHTML = getDateFormat();
-  }
+  $("#"+id+" .start").text(getDateFormat());
+  // var x = document.getElementById(id).getElementsByClassName("start");
+  // for (i = 0; i < x.length; i++) { 
+      // x[i].innerHTML = getDateFormat();
+  // }
 }
 
 function endDate (id) {
-  var x = document.getElementById(id).getElementsByClassName("end");
-  for (i = 0; i < x.length; i++) { 
-      x[i].innerHTML = getDateFormat();
-  }
+  $("#"+id+" .end").text(getDateFormat());
+  // var x = document.getElementById(id).getElementsByClassName("end");
+  // for (i = 0; i < x.length; i++) { 
+      // x[i].innerHTML = getDateFormat();
+  // }
   //enable user to adjust time field after an end time has been set
   adjustTime(id," .end");
   adjustTime(id," .start");
@@ -79,7 +82,7 @@ function adjustTime (id,timeType) {
       var x = $(this).val();
       $(ref).html (x);
        reporting (id, true);
-       storeTimeRow (id)
+       storeTimeRow (id);
     })
     $(ref2).focus ();
   })
@@ -106,8 +109,19 @@ function categoryField (id) {
       html_select = html_select+"<option value='"+category_ids[i]+"'>"+categories[i]+"</option>";
     html_select = html_select+"</select>";
     $("#"+id+" .category").html(html_select);
-    // debugger;
   }
+}
+
+function noteField (id) {
+  var html_note = "<input type='text' class='note-input' maxlength='25'></input>";
+  $("#"+id+" .note").html(html_note);
+}
+
+function adjustNote (id) {
+  var ref = "#"+id+" .note .note-input";
+  $(ref).blur(function(){
+    storeTimeRow (id);
+  })
 }
 
 function actionButtons (id, isNew, isStopped) {
@@ -156,7 +170,7 @@ function addRow (isInsert,ref_id) {
     row.setAttribute('id',date);
     row.setAttribute('class','date');
     var cell = row.insertCell(0);
-    cell.setAttribute('colspan','5');
+    cell.setAttribute('colspan','6');
     cell.innerHTML = d.toDateString();
   }
   var row;
@@ -178,7 +192,9 @@ function addRow (isInsert,ref_id) {
   row.insertCell(1).setAttribute('class','end');
   row.insertCell(2).setAttribute('class','span');
   row.insertCell(3).setAttribute('class','category');
-  row.insertCell(4).setAttribute('class','actions');
+  row.insertCell(4).setAttribute('class','note');
+  row.insertCell(5).setAttribute('class','actions');
+  noteField(timerow);
   if (!isInsert) {
     actionButtons (timerow,true, false);
     startDate (timerow);
@@ -193,6 +209,7 @@ function addRow (isInsert,ref_id) {
     $("#"+timerow+" .end"  ).text( $("#"+ref_id+" .end").text());
     categoryField (timerow);
     adjustTimeCategory(timerow);
+    adjustNote (timerow);
     reporting (timerow, true);
     storeTimeRow (timerow);
   }
@@ -207,6 +224,7 @@ function submit (id, isStop, isInsert) {
     timerow++;
     addRow(false,null);
     adjustTimeCategory(id);
+    adjustNote(id);
   }
   else if (isStop && !isInsert) { //stop action which should not be from insert
     endDate (id); 
@@ -214,6 +232,7 @@ function submit (id, isStop, isInsert) {
     storeTimeRow (id);
     actionButtons(id,true,true);
     adjustTimeCategory(id);
+    adjustNote(id);
   }
   else if (!isStop && isInsert) { //insert action, which should not occur when stopped (i.e. middle insert)
     actionButtons(id,false,false);
@@ -326,7 +345,14 @@ function reporting (id, isAdd) {
 function storeTimeRow (id) {
   var i = $("#"+id);
   var date = i.attr('class');
-  var rowT = new rowTime(id,$("#"+id+" .start").text(),$("#"+id+" .end").text(),$("#"+id+" .category .types").val(),date);
+  var noteInput = $("#"+id+" .note .note-input").val();
+  var note = '';
+  for (j in noteInput) {
+    if (/\w/.test(noteInput[j])) note = note + noteInput[j];
+    else if (/ /.test(noteInput[j])) note = note + noteInput[j];
+  }
+  // while (/\W/.test(note)) note = note.replace(/\W/,'');
+  var rowT = new rowTime(id,$("#"+id+" .start").text(),$("#"+id+" .end").text(),$("#"+id+" .category .types").val(),date,note);
   localStorage.setItem("time_row_object_"+id,rowT.toString(true));
   if (Number(localStorage.getItem("time_row_ceiling")) < id) {
     localStorage.setItem("time_row_ceiling",id);
@@ -343,7 +369,7 @@ function addStoredRow (rowT) {
     row.setAttribute('id',date);
     row.setAttribute('class','date');
     var cell = row.insertCell(0);
-    cell.setAttribute('colspan','5');
+    cell.setAttribute('colspan','6');
     cell.innerHTML = d.toDateString();
   }
   var row = table.insertRow(2);
@@ -353,7 +379,8 @@ function addStoredRow (rowT) {
   row.insertCell(1).setAttribute('class','end');
   row.insertCell(2).setAttribute('class','span');
   row.insertCell(3).setAttribute('class','category');
-  row.insertCell(4).setAttribute('class','actions');
+  row.insertCell(4).setAttribute('class','note');
+  row.insertCell(5).setAttribute('class','actions');
 
   actionButtons (rowT.id,false, false);
   startDate(rowT.id);
@@ -362,6 +389,9 @@ function addStoredRow (rowT) {
   $("#"+rowT.id+" .end"  ).text( rowT.endTime);
   categoryField (rowT.id);
   $("#"+rowT.id+" .category .types").val(rowT.category);
+  noteField(rowT.id);
+  $("#"+rowT.id+" .note .note-input").val(rowT.note);
+  adjustNote(rowT.id);
   adjustTimeCategory(rowT.id);
   reporting (rowT.id, true);
 }
@@ -394,7 +424,7 @@ function loadTimeRows (isStartup, isExport, isImport, importString) {
     while (i <= ceiling) {
       if (localStorage.getItem("time_row_object_"+i) != null) {
         var rowA = localStorage.getItem("time_row_object_"+i).split(",");
-        var rowT = new rowTime(rowA[0],rowA[1],rowA[2],rowA[3],rowA[4]);
+        var rowT = new rowTime(rowA[0],rowA[1],rowA[2],rowA[3],rowA[4],rowA[5]);
         arr.push(rowT);
       }
       i++;
@@ -403,14 +433,12 @@ function loadTimeRows (isStartup, isExport, isImport, importString) {
   }
   else {  //is Import
     var importArray = importString.split("\n");
-    //debugger;
     for (j in importArray) {
       var rowA = importArray[j].split(",");
       if (!/\S/.test(importArray[j]))
         continue;
       try {
-        if (rowA.length != 4) throw "line "+(Number(j)+1)+" has wrong format";
-        // if (/[^0-9]/.test(rowA[0])) throw "invalid id on line "+(Number(j)+1);
+        if (rowA.length != 5) throw "line "+(Number(j)+1)+" has wrong format";
         if (!/[0-2][0-9]:[0-5][0-9]/.test(rowA[0])) throw "invalid start time on line "+(Number(j)+1);
         if (!/[0-2][0-9]:[0-5][0-9]/.test(rowA[1])) throw "invalid end time on line "+(Number(j)+1);
         if (/2[4-9]:/.test(rowA[0])) throw "invalid start time on line "+(Number(j)+1);
@@ -427,12 +455,19 @@ function loadTimeRows (isStartup, isExport, isImport, importString) {
         if (testDate.getDate() != splitDate[2]) throw "invalid date on line "+(Number(j)+1);
         var nowDate = new Date();
         if (nowDate.getTime() < testDate.getTime()) throw "invalid date, date later than now on line "+(Number(j)+1);
+        // for (k in rowA[4]) {
+          // if (!(/\w/.test(rowA[4][k]) || / /.test(rowA[4][k]))) throw "invalid character(s) in the note on line "+(Number(j)+1);
+        // }
+        if (!/^(\w| ){0,25}$/.test(rowA[4])) throw "invalid character(s) in the note on line "+(Number(j)+1);
       }
       catch(err) {
-        $("#import-result-text").html("error: "+err+"<br>format: StartTime,EndTime,FourCharacterCategoryCode,Date<br>syntax: HH:MM,HH:MM,CATE,YYYY-MM-DD");
+        var format="<br>format: StartTime,EndTime,FourCharacterCategoryCode,Date,Note";
+        var syntax="<br>syntax: HH:MM,HH:MM,CATE,YYYY-MM-DD,NOTE";
+        var note="<br>the note only accepts the following characters a-z,A-Z,0-9, and spaces";
+        $("#import-result-text").html("error: "+err+format+syntax+note);
         return -1;
       }
-      var rowT = new rowTime(timerow,rowA[0],rowA[1],rowA[2],rowA[3]);
+      var rowT = new rowTime(timerow,rowA[0],rowA[1],rowA[2],rowA[3],rowA[4]);
       timerow++;
       arr.push(rowT);
     }
@@ -446,7 +481,7 @@ function loadTimeRows (isStartup, isExport, isImport, importString) {
     for (x in sort_arr) {
       addStoredRow(sort_arr[x]);
       if (isImport)
-        storeTimeRow(sort_arr[x].id)
+        storeTimeRow(sort_arr[x].id);
       }
   }
   else { //is Export 
